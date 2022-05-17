@@ -1,5 +1,5 @@
 import './App.css';
-import { calc, negate } from './_CalculatorHelpers';
+import { calc } from './_CalculatorHelpers';
 function App() {
 
   const element = document.body;
@@ -15,7 +15,11 @@ function App() {
   });
 
 
-  const buttons = ['a', 'b', 'c'];
+  const buttons = ['a', 'b', 'c'/* ... */];
+  const numbers = ['0','1','2','3','4','5','6','7','8','9','.'];
+  const operators = ['+', '-', '*', '/'];
+  const modifiers = ['%', '	±'];
+  const exits = ['=', 'Enter'];
 
   const handlePressButton = (event) => {
     const key = event.target.id;
@@ -26,7 +30,7 @@ function App() {
     element.dispatchEvent(new KeyboardEvent('keyup', {key}));
   }
 
-  console.log(negate(calc(2,5,'%')))
+  console.log(calc(0,'-',1))
 
   return (
     <div className="App">
@@ -34,12 +38,12 @@ function App() {
         buttons.map((button, i)=>(
           <button
             className="button"
-            key={i}
-            id={button}
+            key={ i }
+            id={ button }
             onMouseDown={ handlePressButton }
-            onMouseUp={ handleReleaseButton}
+            onMouseUp={ handleReleaseButton }
           >
-            {button}
+            { button }
           </button>
         ))
       }
