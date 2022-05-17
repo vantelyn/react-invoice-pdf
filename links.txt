@@ -1,3 +1,13 @@
+
+REACT-PDF
+
 https://kags.me.ke/post/generate-dynamic-pdf-incoice-using-react-pdf/
 https://react-pdf.org/
 https://stackoverflow.com/questions/56373850/how-can-i-create-a-table-using-the-react-pdf-library-for-generation-pdf-report
+
+
+
+PDFMAKE
+
+https://gist.githubusercontent.com/tusharf5/034d3e0599ae87ec4033c53107965569/raw/3fdb55a8edfdd5d2c4962544232b7397cd58f393/invoice.js
+https://pdfmake.github.io/docs/0.3/
