@@ -14,6 +14,10 @@ function App() {
 
   const buttons = ['a', 'b', 'c'];
 
+  const handlePressButton = (event) => {
+    console.log(event.target.id)
+  }
+
   return (
     <div className="App">
       {
@@ -22,8 +26,9 @@ function App() {
             className="button"
             key={i}
             id={button}
+            onClick={ handlePressButton }
           >
-            button
+            {button}
           </button>
         ))
       }
