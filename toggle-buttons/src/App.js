@@ -4,6 +4,7 @@ function App() {
   const element = document.body;
 
   element.addEventListener("keydown", function({key}) {
+    console.log(key)
     if(document.getElementById(key))
       document.getElementById(key).classList.add('pressed');
   });
@@ -15,7 +16,12 @@ function App() {
   const buttons = ['a', 'b', 'c'];
 
   const handlePressButton = (event) => {
-    console.log(event.target.id)
+    const key = event.target.id;
+    element.dispatchEvent(new KeyboardEvent('keydown', {key}));
+  }
+  const handleReleaseButton = (event) => {
+    const key = event.target.id;
+    element.dispatchEvent(new KeyboardEvent('keyup', {key}));
   }
 
   return (
@@ -26,7 +32,8 @@ function App() {
             className="button"
             key={i}
             id={button}
-            onClick={ handlePressButton }
+            onMouseDown={ handlePressButton }
+            onMouseUp={ handleReleaseButton}
           >
             {button}
           </button>
