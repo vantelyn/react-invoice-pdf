@@ -1,4 +1,5 @@
 import './App.css';
+import { calc, negate } from './_CalculatorHelpers';
 function App() {
 
   const element = document.body;
@@ -13,6 +14,7 @@ function App() {
       document.getElementById(key).classList.remove('pressed');
   });
 
+
   const buttons = ['a', 'b', 'c'];
 
   const handlePressButton = (event) => {
@@ -23,6 +25,8 @@ function App() {
     const key = event.target.id;
     element.dispatchEvent(new KeyboardEvent('keyup', {key}));
   }
+
+  console.log(negate(calc(2,5,'%')))
 
   return (
     <div className="App">
