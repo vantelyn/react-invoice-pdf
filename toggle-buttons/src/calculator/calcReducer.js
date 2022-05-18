@@ -1,12 +1,13 @@
 import { 
   addValidKeyToInputs, 
+  calculate, 
   removeLastKeyFromInputs
 } from "./calcHelpers";
 import { types } from "./types";
 
 export const initialState = {
-  memory: null,
-  operator: null,
+  memory: undefined,
+  operator: undefined,
   userInputFloat: 0,
   userInputString: '0',
   userInputFormattedString:'0'
@@ -26,6 +27,14 @@ export const calcReducer = ( state, action ) => {
       }
     case(types.resetCalculator):
       return initialState;
+
+    case(types.solveAndMemoriseResult):
+      const result = calculate(state.memory, state.operator, state.userInputFloat);
+      console.log(result)
+      return {
+        ...initialState,
+        memory: result
+      };
 
     case(types.saveOperator):
       return {

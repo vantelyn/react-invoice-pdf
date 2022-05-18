@@ -13,6 +13,10 @@ export const deleteLastInput = () => ({
   type: types.deleteLastInput
 })
 
+export const solveAndMemoriseResult = () => ({
+  type: types.solveAndMemoriseResult
+})
+
 export const saveOperator = ( operator ) => ({
   type: types.saveOperator,
   payload: operator

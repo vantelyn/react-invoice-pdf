@@ -1,4 +1,4 @@
-export const calc = ( a, key, b ) => {
+export const calculate = ( a=0, key='+', b ) => {
   switch (key) {
     case '+':
         return a+b;
@@ -11,15 +11,8 @@ export const calc = ( a, key, b ) => {
 
     case '*':
         return a*b;
-  
-    case '%':
-        return a*(b||1)/100;
-        
-    case '±':
-        return -(a);
-  
     default:
-      console.log('Invalid operation');
+      console.error('Invalid operation');
   }
 }
 

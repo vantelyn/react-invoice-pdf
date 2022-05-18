@@ -17,6 +17,24 @@ export const commify = (string) => {
   return numberPart.replace(thousands, ",") + (parts.length>1 ? "." + (decimalPart ? decimalPart : ""): "");
 }
 
+export const calculate = ( a=0, key='+', b ) => {
+  switch (key) {
+    case '+':
+        return a+b;
+  
+    case '-':
+        return a-b;
+   
+    case '/':
+        return a/b;
+
+    case '*':
+        return a*b;
+    default:
+      console.error('Invalid operation');
+  }
+}
+
 export const addValidKeyToInputs = (key, string) => {
   const number = parseFloat(string);
 

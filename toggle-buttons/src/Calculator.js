@@ -1,7 +1,7 @@
 import { calcReducer, initialState } from './calculator/calcReducer';
 import { useReducer } from 'react';
 import './App.css';
-import { addNewInput, deleteLastInput, resetCalculator, saveOperator } from './calculator/calcActions';
+import { addNewInput, deleteLastInput, resetCalculator, saveOperator, solveAndMemoriseResult } from './calculator/calcActions';
 
 function Calculator() {
 
@@ -58,8 +58,10 @@ function Calculator() {
         return dispatch(resetCalculator());
 
       case (operators.includes(key)):
-        return dispatch(saveOperator(key));
-    
+        dispatch(solveAndMemoriseResult());
+        dispatch(saveOperator(key));
+        return;
+
       default:
         break;
     }
@@ -84,12 +86,12 @@ function Calculator() {
       <input 
         className='mod__input'
         disabled
-        value={ memory }
+        value={ memory===undefined ? '' : memory }
       />
       <input 
         className='mod__input'
         disabled
-        value={ operator || '' }
+        value={ operator===undefined ? '' : operator }
       />
       <input 
         className='mod__input'
