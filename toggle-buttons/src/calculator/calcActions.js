@@ -12,3 +12,8 @@ export const resetCalculator = () => ({
 export const deleteLastInput = () => ({
   type: types.deleteLastInput
 })
+
+export const saveOperator = ( operator ) => ({
+  type: types.saveOperator,
+  payload: operator
+})

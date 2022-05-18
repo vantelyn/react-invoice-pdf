@@ -1,12 +1,13 @@
 import { calcReducer, initialState } from './calculator/calcReducer';
 import { useReducer } from 'react';
 import './App.css';
-import { addNewInput, deleteLastInput, resetCalculator } from './calculator/calcActions';
-function App() {
+import { addNewInput, deleteLastInput, resetCalculator, saveOperator } from './calculator/calcActions';
+
+function Calculator() {
 
   const element = document.body;
 
-  const [{userInputString, userInputFloat, userInputFormattedString}, dispatch] = useReducer(calcReducer, initialState);
+  const [{operator, memory, userInputFormattedString}, dispatch] = useReducer(calcReducer, initialState);
 
   element.addEventListener("keydown", function({key}) {
     if(document.getElementById(key))
@@ -19,10 +20,19 @@ function App() {
   });
 
 
-  const numbers = ['0','1','2','3','4','5','6','7','8','9','.'];
-  // const operators = ['+', '-', '*', '/'];
+  const inputs = ['0','1','2','3','4','5','6','7','8','9','.'];
+  const operators = ['+', '-', '*', '/'];
+  const deleters = ['D'];
+  const reseters = ['R'];
   // const modifiers = ['%', '	±'];
   // const exits = ['=', 'Enter'];
+
+  const buttons = [
+    ...inputs,
+    ...operators,
+    ...deleters,
+    ...reseters
+  ]
 
   const handlePressButton = (event) => {
     const key = event.target.id;
@@ -35,20 +45,30 @@ function App() {
 
   const handleButtonClick = (event) => {
     const key = event.target.id;
-    dispatch(addNewInput(key));
-  }
+    
 
-  const handleDelete = () => {
-    dispatch(deleteLastInput());
-  }
-  const handleReset = () => {
-    dispatch(resetCalculator());
+    switch (true) {
+      case (inputs.includes(key)):
+        return dispatch(addNewInput(key));
+
+      case (deleters.includes(key)):
+        return dispatch(deleteLastInput());
+
+      case (reseters.includes(key)):
+        return dispatch(resetCalculator());
+
+      case (operators.includes(key)):
+        return dispatch(saveOperator(key));
+    
+      default:
+        break;
+    }
   }
 
   return (
     <div className="App">
       {
-        numbers.map((button, i)=>(
+        buttons.map((button, i)=>(
           <button
             className="button"
             key={ i }
@@ -64,30 +84,20 @@ function App() {
       <input 
         className='mod__input'
         disabled
-        value={userInputString}
+        value={ memory }
       />
       <input 
         className='mod__input'
         disabled
-        value={userInputFloat}
+        value={ operator || '' }
       />
       <input 
         className='mod__input'
         disabled
-        value={userInputFormattedString}
+        value={ userInputFormattedString }
       />
-      <button
-        onClick={ handleDelete }
-      >
-        D
-      </button>
-      <button
-        onClick={ handleReset }
-      >
-        R
-      </button>
     </div>
   );
 }
 
-export default App;
+export default Calculator;
