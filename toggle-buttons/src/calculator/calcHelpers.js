@@ -18,6 +18,7 @@ export const commify = (string) => {
 }
 
 export const calculate = ( a=0, key='+', b ) => {
+
   switch (key) {
     case '+':
         return a+b;

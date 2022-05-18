@@ -30,7 +30,6 @@ export const calcReducer = ( state, action ) => {
 
     case(types.solveAndMemoriseResult):
       const result = calculate(state.memory, state.operator, state.userInputFloat);
-      console.log(result)
       return {
         ...initialState,
         memory: result
@@ -40,6 +39,11 @@ export const calcReducer = ( state, action ) => {
       return {
         ...state,
         operator: action.payload
+      };
+    case(types.eraseMemory):
+      return {
+        ...state,
+        memory: undefined
       };
     default:
       return state;

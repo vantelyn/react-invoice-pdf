@@ -16,6 +16,9 @@ export const deleteLastInput = () => ({
 export const solveAndMemoriseResult = () => ({
   type: types.solveAndMemoriseResult
 })
+export const eraseMemory = () => ({
+  type: types.eraseMemory
+})
 
 export const saveOperator = ( operator ) => ({
   type: types.saveOperator,

@@ -1,61 +1,55 @@
 import { calcReducer, initialState } from './calculator/calcReducer';
-import { useReducer } from 'react';
-import './App.css';
-import { addNewInput, deleteLastInput, resetCalculator, saveOperator, solveAndMemoriseResult } from './calculator/calcActions';
+import { useEffect, useReducer } from 'react';
+import { 
+  addNewInput, 
+  deleteLastInput, 
+  eraseMemory, 
+  resetCalculator, 
+  saveOperator, 
+  solveAndMemoriseResult 
+} from './calculator/calcActions';
+
+import './Calculator.css';
 
 function Calculator() {
 
-  const element = document.body;
+  const [{userInputFloat, operator, memory, userInputFormattedString}, dispatch] = useReducer(calcReducer, initialState);
 
-  const [{operator, memory, userInputFormattedString}, dispatch] = useReducer(calcReducer, initialState);
-
-  element.addEventListener("keydown", function({key}) {
-    if(document.getElementById(key))
-      document.getElementById(key).classList.add('pressed');
-  });
-
-  element.addEventListener("keyup", function({key}) {
-    if(document.getElementById(key))
-      document.getElementById(key).classList.remove('pressed');
-  });
-
+  useEffect(() => {
+    if(memory && !operator && userInputFloat>0)
+      dispatch(eraseMemory())
+  }, [memory, operator, userInputFloat]);
 
   const inputs = ['0','1','2','3','4','5','6','7','8','9','.'];
   const operators = ['+', '-', '*', '/'];
-  const deleters = ['D'];
-  const reseters = ['R'];
-  // const modifiers = ['%', '	±'];
-  // const exits = ['=', 'Enter'];
+  const reseters = ['Delete'];
+  const erasers = ['Backspace'];
+  const modifiers = ['%', '	±'];
+  const exits = ['=', 'Enter'];
 
   const buttons = [
     ...inputs,
     ...operators,
-    ...deleters,
-    ...reseters
-  ]
+    ...modifiers,
+    ...erasers,
+    ...reseters,
+    ...exits,
+  ];
 
-  const handlePressButton = (event) => {
-    const key = event.target.id;
-    element.dispatchEvent(new KeyboardEvent('keydown', {key}));
-  }
-  const handleReleaseButton = (event) => {
-    const key = event.target.id;
-    element.dispatchEvent(new KeyboardEvent('keyup', {key}));
-  }
-
-  const handleButtonClick = (event) => {
-    const key = event.target.id;
-    
+  const handleInputKey = (key) => {
 
     switch (true) {
       case (inputs.includes(key)):
         return dispatch(addNewInput(key));
 
-      case (deleters.includes(key)):
+      case (erasers.includes(key)):
         return dispatch(deleteLastInput());
 
       case (reseters.includes(key)):
         return dispatch(resetCalculator());
+
+      case (exits.includes(key)):
+        return dispatch(solveAndMemoriseResult());
 
       case (operators.includes(key)):
         dispatch(solveAndMemoriseResult());
@@ -67,15 +61,40 @@ function Calculator() {
     }
   }
 
+  const handlePressButton = (event) => {
+    event.target.classList.add('pressed');
+    const key = event.target.id;
+    handleInputKey(key);
+  };
+
+  const handleReleaseButton = (event) => {
+    event.target.classList.remove('pressed');
+  };
+
+  const handlePressKey = ({key}) => {
+    if(document.getElementById(key))
+      document.getElementById(key).classList.add('pressed');
+    handleInputKey(key);
+  }
+
+  const handleReleaseKey = ({key}) => {
+    if(document.getElementById(key))
+      document.getElementById(key).classList.remove('pressed');
+  }
+
   return (
-    <div className="App">
+    <div
+      tabIndex={0}
+      className="Calculator"
+      onKeyDown={ handlePressKey }
+      onKeyUp={ handleReleaseKey }
+    >
       {
         buttons.map((button, i)=>(
           <button
             className="button"
             key={ i }
             id={ button }
-            onClick={ handleButtonClick }
             onMouseDown={ handlePressButton }
             onMouseUp={ handleReleaseButton }
           >

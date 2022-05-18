@@ -3,5 +3,6 @@ export const types = {
   deleteLastInput: 'Delete last user input',
   resetCalculator: 'Reset calculator',
   saveOperator: 'Save operator',
+  eraseMemory: 'Erase memory',
   solveAndMemoriseResult: 'Solve current operation and memorise result'
 }
