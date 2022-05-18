@@ -94,10 +94,18 @@ function Calculator() {
       document.getElementById(key).classList.remove('pressed');
   }
 
+  const handleMouseMove = ({clientX, clientY}) => {
+    console.log('clientX:', clientX)
+    console.log('clientY:',clientY)
+  } 
+
   return (
     <div
       tabIndex={0}
       className="Calculator"
+      onMouseDown={ null }
+      onMouseUp={ null }
+      onMouseMove={ handleMouseMove }
       onKeyDown={ handlePressKey }
       onKeyUp={ handleReleaseKey }
     >
