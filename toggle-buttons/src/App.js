@@ -6,7 +6,7 @@ function App() {
 
   const element = document.body;
 
-  const [{userInputString}, dispatch] = useReducer(calcReducer, initialState);
+  const [{userInputString, userInputFloat, userInputFormattedString}, dispatch] = useReducer(calcReducer, initialState);
 
   element.addEventListener("keydown", function({key}) {
     if(document.getElementById(key))
@@ -65,6 +65,16 @@ function App() {
         className='mod__input'
         disabled
         value={userInputString}
+      />
+      <input 
+        className='mod__input'
+        disabled
+        value={userInputFloat}
+      />
+      <input 
+        className='mod__input'
+        disabled
+        value={userInputFormattedString}
       />
       <button
         onClick={ handleDelete }
