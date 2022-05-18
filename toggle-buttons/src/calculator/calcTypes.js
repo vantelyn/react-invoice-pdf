@@ -4,5 +4,6 @@ export const types = {
   resetCalculator: 'Reset calculator',
   saveOperator: 'Save operator',
   eraseMemory: 'Erase memory',
-  solveAndMemoriseResult: 'Solve current operation and memorise result'
+  solveAndMemoriseResult: 'Solve current operation and memorise result',
+  modifyUserInputs: 'Modify user inputs'
 }

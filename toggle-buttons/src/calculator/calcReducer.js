@@ -1,9 +1,10 @@
+import { types } from "./calcTypes";
 import { 
   addValidKeyToInputs, 
   calculate, 
+  modifyInputs, 
   removeLastKeyFromInputs
 } from "./calcHelpers";
-import { types } from "./types";
 
 export const initialState = {
   memory: undefined,
@@ -44,6 +45,13 @@ export const calcReducer = ( state, action ) => {
       return {
         ...state,
         memory: undefined
+      };
+    case(types.modifyUserInputs):
+      
+      // console.log(action.payload)
+      return {
+        ...state,
+        ...modifyInputs( state.userInputString, action.payload, state.memory )
       };
     default:
       return state;

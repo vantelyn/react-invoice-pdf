@@ -1,8 +1,38 @@
-.pressed{
+.pressed {
   background-color: red;
 }
 
-.mod__input{
+.mod__input {
   background-color: transparent;
   text-align: right;
+}
+
+.buttons{
+  width:186px
+}
+
+.Calculator{
+  position:absolute;
+  background-color: red;
+  border: 1px solid black;
+  transform: translate(150px,50px)
+}
+
+.Calculator:focus-visible{
+  outline:none;
+}
+
+button {
+  background-color:transparent;
+  min-width: 44.5px;
+  height: 44.5px;
+  margin: 1px
+}
+
+button:focus-visible{
+  outline:none;
+}
+
+input {
+  display:block;
 }

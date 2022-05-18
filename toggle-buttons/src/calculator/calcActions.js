@@ -1,4 +1,4 @@
-import { types } from "./types";
+import { types } from "./calcTypes";
 
 export const addNewInput = ( key ) => ({
   type: types.addNewInput,
@@ -23,4 +23,9 @@ export const eraseMemory = () => ({
 export const saveOperator = ( operator ) => ({
   type: types.saveOperator,
   payload: operator
+})
+
+export const modifyUserInputs = ( key ) => ({
+  type: types.modifyUserInputs,
+  payload: key
 })

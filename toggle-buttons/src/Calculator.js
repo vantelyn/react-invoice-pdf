@@ -1,9 +1,10 @@
-import { calcReducer, initialState } from './calculator/calcReducer';
 import { useEffect, useReducer } from 'react';
+import { calcReducer, initialState } from './calculator/calcReducer';
 import { 
   addNewInput, 
   deleteLastInput, 
   eraseMemory, 
+  modifyUserInputs, 
   resetCalculator, 
   saveOperator, 
   solveAndMemoriseResult 
@@ -13,7 +14,8 @@ import './Calculator.css';
 
 function Calculator() {
 
-  const [{userInputFloat, operator, memory, userInputFormattedString}, dispatch] = useReducer(calcReducer, initialState);
+  const [state, dispatch] = useReducer(calcReducer, initialState);
+  const {userInputFloat, operator, memory, userInputFormattedString} = state;
 
   useEffect(() => {
     if(memory && !operator && userInputFloat>0)
@@ -21,19 +23,26 @@ function Calculator() {
   }, [memory, operator, userInputFloat]);
 
   const inputs = ['0','1','2','3','4','5','6','7','8','9','.'];
-  const operators = ['+', '-', '*', '/'];
-  const reseters = ['Delete'];
-  const erasers = ['Backspace'];
-  const modifiers = ['%', '	±'];
+  const operators = ['+', '-', '*', '/', '×','÷'];
+  const reseters = ['Delete', 'C'];
+  const erasers = ['Backspace', '⌫'];
+  const modifiers = ['%', '±'];
   const exits = ['=', 'Enter'];
 
-  const buttons = [
-    ...inputs,
-    ...operators,
-    ...modifiers,
-    ...erasers,
-    ...reseters,
-    ...exits,
+  const layout = [
+    '⌫','C','%','÷',
+    '7','8','9','×',
+    '4','5','6','-',
+    '1','2','3','+',
+    '±','0','.','=',
+  ];
+
+  const buttonsIds = [
+    'Backspace','Delete','%','/',
+    '7','8','9','*',
+    '4','5','6','-',
+    '1','2','3','+',
+    '±','0','.','Enter',
   ];
 
   const handleInputKey = (key) => {
@@ -44,6 +53,9 @@ function Calculator() {
 
       case (erasers.includes(key)):
         return dispatch(deleteLastInput());
+
+      case (modifiers.includes(key)):
+        return dispatch(modifyUserInputs(key));
 
       case (reseters.includes(key)):
         return dispatch(resetCalculator());
@@ -89,34 +101,38 @@ function Calculator() {
       onKeyDown={ handlePressKey }
       onKeyUp={ handleReleaseKey }
     >
-      {
-        buttons.map((button, i)=>(
-          <button
-            className="button"
-            key={ i }
-            id={ button }
-            onMouseDown={ handlePressButton }
-            onMouseUp={ handleReleaseButton }
-          >
-            { button }
-          </button>
-        ))
-      }
-      <input 
-        className='mod__input'
-        disabled
-        value={ memory===undefined ? '' : memory }
-      />
-      <input 
-        className='mod__input'
-        disabled
-        value={ operator===undefined ? '' : operator }
-      />
-      <input 
-        className='mod__input'
-        disabled
-        value={ userInputFormattedString }
-      />
+      <div className="screen">
+        <input 
+          className='mod__input'
+          disabled
+          value={ memory===undefined ? '' : memory }
+        />
+        <input 
+          className='mod__input'
+          disabled
+          value={ operator===undefined ? '' : operator }
+        />
+        <input 
+          className='mod__input'
+          disabled
+          value={ userInputFormattedString }
+        />
+      </div> 
+      <div className="buttons">
+        {
+          layout.map((button, i)=>(
+            <button
+              className="button"
+              key={ i }
+              id={ buttonsIds[i] }
+              onMouseDown={ handlePressButton }
+              onMouseUp={ handleReleaseButton }
+            >
+              { button }
+            </button>
+          ))
+        }
+      </div>   
     </div>
   );
 }
