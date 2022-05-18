@@ -1,3 +1,8 @@
 .pressed{
   background-color: red;
 }
+
+.mod__input{
+  background-color: transparent;
+  text-align: right;
+}
