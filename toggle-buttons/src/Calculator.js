@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useRef, useState } from 'react';
 import { calcReducer, initialState } from './calculator/calcReducer';
 import { 
   addNewInput, 
@@ -7,15 +7,22 @@ import {
   modifyUserInputs, 
   resetCalculator, 
   saveOperator, 
-  solveAndMemoriseResult 
+  solveAndMemoriseResult, 
+  solveAndMemoriseResult2
 } from './calculator/calcActions';
 
 import './Calculator.css';
 
 function Calculator() {
 
+  const calcRef = useRef();
+
+  const [mouseDown, setMouseDown] = useState(false);
+  const [x, setX] = useState();
+  const [y, setY] = useState();
+
   const [state, dispatch] = useReducer(calcReducer, initialState);
-  const {userInputFloat, operator, memory, userInputFormattedString} = state;
+  const {userInputFloat, operator, memory, userInputFormattedString, result} = state;
 
   useEffect(() => {
     if(memory && !operator && userInputFloat>0)
@@ -61,7 +68,7 @@ function Calculator() {
         return dispatch(resetCalculator());
 
       case (exits.includes(key)):
-        return dispatch(solveAndMemoriseResult());
+        return dispatch(solveAndMemoriseResult2());
 
       case (operators.includes(key)):
         dispatch(solveAndMemoriseResult());
@@ -94,18 +101,30 @@ function Calculator() {
       document.getElementById(key).classList.remove('pressed');
   }
 
-  const handleMouseMove = ({clientX, clientY}) => {
-    console.log('clientX:', clientX)
-    console.log('clientY:',clientY)
-  } 
+  const handleMouseDown = ({clientX, clientY}) => {
+    setX(calcRef.current.offsetLeft - clientX)
+    setY(calcRef.current.offsetTop - clientY)
+    setMouseDown(true);
+  }
+  const handleMouseUp = () => {
+    setMouseDown(false);
+  }
+
+  const handleMove = ({clientX, clientY}) => {
+    if(mouseDown){
+      calcRef.current.style.left = `${clientX + x}px`
+      calcRef.current.style.top = `${clientY + y}px`
+    }
+  }
 
   return (
     <div
+      ref={calcRef}
       tabIndex={0}
       className="Calculator"
-      onMouseDown={ null }
-      onMouseUp={ null }
-      onMouseMove={ handleMouseMove }
+      onMouseDown={ handleMouseDown }
+      onMouseUp={ handleMouseUp }
+      onMouseMove={ handleMove }
       onKeyDown={ handlePressKey }
       onKeyUp={ handleReleaseKey }
     >
@@ -123,7 +142,7 @@ function Calculator() {
         <input 
           className='mod__input'
           disabled
-          value={ userInputFormattedString }
+          value={ userInputFormattedString || result }
         />
       </div> 
       <div className="buttons">

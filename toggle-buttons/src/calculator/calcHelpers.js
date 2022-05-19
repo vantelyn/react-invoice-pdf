@@ -17,7 +17,6 @@ const commify = (string) => {
 
 export const modifyInputs = (string, key, memory=1) => {
   switch (key) {
-
     case '%':
       const numValue = Number(string);
       string = (numValue * memory / 100).toString();

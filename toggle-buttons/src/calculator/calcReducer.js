@@ -7,6 +7,7 @@ import {
 } from "./calcHelpers";
 
 export const initialState = {
+  result: undefined,
   memory: undefined,
   operator: undefined,
   userInputFloat: 0,
@@ -30,10 +31,25 @@ export const calcReducer = ( state, action ) => {
       return initialState;
 
     case(types.solveAndMemoriseResult):
-      const result = calculate(state.memory, state.operator, state.userInputFloat);
+      const result = calculate(state.memory, state.operator, (state.userInputFloat || state.result));
       return {
         ...initialState,
         memory: result
+      };
+
+    case(types.solveCurrentCalculationAndSaveOperator):
+      const result2 = calculate(state.memory, state.operator, (state.userInputFloat || state.result));
+      return {
+        operator: action.payload
+      };
+      
+    case(types.solveAndMemoriseResult2):
+      return {
+        ...state,
+        result: calculate(state.memory, state.operator, (state.userInputFloat || state.result)),
+        userInputFloat: undefined,
+        userInputString: '',
+        userInputFormattedString:''
       };
 
     case(types.saveOperator):

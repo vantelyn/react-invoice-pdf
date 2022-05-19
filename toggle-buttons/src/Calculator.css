@@ -13,9 +13,10 @@
 
 .Calculator{
   position:absolute;
-  background-color: red;
+  background-color: lightgray;
   border: 1px solid black;
-  transform: translate(150px,50px)
+  left:0px;
+  top:0px;
 }
 
 .Calculator:focus-visible{
