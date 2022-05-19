@@ -39,7 +39,7 @@ export const modifyInputs = (string, key, memory=1) => {
   };
 }
 
-export const calculate = ( a=0, key='+', b ) => {
+export const calculate = ( a=0, key, b ) => {
 
   switch (key) {
     case '+':
@@ -57,7 +57,7 @@ export const calculate = ( a=0, key='+', b ) => {
         return a*b;
 
     default:
-      console.error('Invalid operation');
+      return b;
   }
 }
 
@@ -65,13 +65,11 @@ export const addValidKeyToInputs = (key, string) => {
   const number = parseFloat(string);
 
   if( isValidInput(key) )
-
-    if( key === '.' )
+  
+    if( string === '' && key === '.')
+      string = '0'+key;
+    else if( key === '.' )
       isInteger(number) && (string = number.toString() + key)
-
-    else if( string === '0' )
-      string = key;
-
     else
       string = string + key;
 

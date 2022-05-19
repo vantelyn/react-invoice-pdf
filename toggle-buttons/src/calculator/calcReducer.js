@@ -7,12 +7,12 @@ import {
 } from "./calcHelpers";
 
 export const initialState = {
-  result: undefined,
+  result: 0,
   memory: undefined,
   operator: undefined,
-  userInputFloat: 0,
-  userInputString: '0',
-  userInputFormattedString:'0'
+  userInputFloat: undefined,
+  userInputString: '',
+  userInputFormattedString:''
 }
 
 export const calcReducer = ( state, action ) => {
@@ -31,16 +31,13 @@ export const calcReducer = ( state, action ) => {
       return initialState;
 
     case(types.solveAndMemoriseResult):
-      const result = calculate(state.memory, state.operator, (state.userInputFloat || state.result));
       return {
-        ...initialState,
-        memory: result
-      };
-
-    case(types.solveCurrentCalculationAndSaveOperator):
-      const result2 = calculate(state.memory, state.operator, (state.userInputFloat || state.result));
-      return {
-        operator: action.payload
+        ...state,
+        result: calculate(state.memory, state.operator, (state.userInputFloat || state.result)),
+        userInputFloat: undefined,
+        userInputString: '',
+        userInputFormattedString:'',
+        memory: calculate(state.memory, state.operator, (state.userInputFloat || state.result))
       };
       
     case(types.solveAndMemoriseResult2):
